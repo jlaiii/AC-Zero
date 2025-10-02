@@ -21,8 +21,47 @@ import time
 import winreg
 import ctypes
 from pathlib import Path
-import psutil
 from datetime import datetime
+
+# Auto-install required packages
+def install_required_packages():
+    """Auto-install required packages if they're missing"""
+    required_packages = ['psutil']
+    
+    print("AC-Zero: Checking dependencies...")
+    
+    for package in required_packages:
+        try:
+            __import__(package)
+            print(f"✓ {package} is available")
+        except ImportError:
+            print(f"⚠ Installing required package: {package}")
+            print("This may take a moment on first run...")
+            try:
+                subprocess.check_call([
+                    sys.executable, '-m', 'pip', 'install', package, '--quiet'
+                ])
+                print(f"✓ Successfully installed {package}")
+            except subprocess.CalledProcessError as e:
+                print(f"✗ Failed to install {package}")
+                print(f"Error: {e}")
+                print(f"\nPlease install manually with: pip install {package}")
+                print("Or ensure you have an internet connection and try again.")
+                input("Press any key to exit...")
+                sys.exit(1)
+            except Exception as e:
+                print(f"✗ Unexpected error installing {package}: {e}")
+                print(f"Please install manually with: pip install {package}")
+                input("Press any key to exit...")
+                sys.exit(1)
+    
+    print("✓ All dependencies ready!\n")
+
+# Install packages before importing them
+install_required_packages()
+
+# Now import the packages that might have been missing
+import psutil
 
 def boot_sequence():
     """Display AC-Zero intro with program info and website"""
