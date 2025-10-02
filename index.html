@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AC-Zero - The Ultimate System Reset Utility</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom styles for a dark, sleek, and high-contrast look */
@@ -27,6 +26,15 @@
         .btn-primary:hover {
             background-color: #2ea043;
             box-shadow: 0 0 10px rgba(46, 160, 67, 0.5);
+        }
+        /* New Python Button Style */
+        .btn-python {
+            background-color: #4B8BBE; /* Python Blue */
+            color: #FFDE57; /* Python Yellow */
+            transition: background-color 0.3s;
+        }
+        .btn-python:hover {
+            background-color: #3C77A5;
         }
         .feature-icon {
             color: #58a6ff; /* Blue highlight */
@@ -51,23 +59,113 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.75); /* Dark overlay */
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: #161b22;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            max-width: 600px; /* Slightly wider for more content */
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(-50px);
+            transition: transform 0.3s ease-in-out;
+        }
+        .modal.active .modal-content {
+            transform: translateY(0);
+        }
+        .disclaimer-icon {
+            width: 3rem;
+            height: 3rem;
+            stroke: #eab308; /* Amber color for warning */
+            fill: none;
+            stroke-width: 1.5;
+        }
+        .disclaimer-section {
+            background-color: #1f2937; /* Darker grey for sections */
+            border-left: 4px solid #eab308; /* Amber border */
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+        .disclaimer-strong {
+            color: #eab308; /* Amber for strong text */
+            font-weight: 700;
+        }
+        .python-notice {
+            background-color: #0f131a;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            border: 2px solid #4B8BBE;
+            box-shadow: 0 0 15px rgba(75, 139, 190, 0.2);
+        }
+        .python-checkbox-container {
+            background-color: #1a1f2e;
+            border: 2px solid #4B8BBE;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        .python-checkbox-container:hover {
+            border-color: #58a6ff;
+            box-shadow: 0 0 10px rgba(88, 166, 255, 0.3);
+        }
+        .python-checkbox-container.checked {
+            border-color: #4ade80;
+            background-color: #0f2419;
+            box-shadow: 0 0 15px rgba(74, 222, 128, 0.2);
+        }
+        .custom-checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+            accent-color: #4ade80;
+            cursor: pointer;
+        }
+        .btn-disabled {
+            background-color: #374151 !important;
+            color: #6b7280 !important;
+            cursor: not-allowed !important;
+            opacity: 0.5;
+        }
+        .btn-disabled:hover {
+            background-color: #374151 !important;
+            box-shadow: none !important;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
     <header class="p-4 border-b border-gray-700">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-xl font-bold text-gradient">AC-Zero</h1>
             <nav>
                 <a href="#features" class="text-sm px-3 py-2 rounded-lg hover:bg-gray-700 transition duration-150">Features</a>
-                <a href="#about" class="text-sm px-3 py-2 rounded-lg hover:bg-gray-700 transition duration-150">Disclaimer</a>
-                <a href="#" class="btn-primary px-4 py-2 text-sm rounded-lg ml-4">Download Script</a>
+                <a id="disclaimer-link-nav" href="#" class="text-sm px-3 py-2 rounded-lg hover:bg-gray-700 transition duration-150">Disclaimer</a>
+                <a id="download-btn-nav" href="#" class="btn-primary px-4 py-2 text-sm rounded-lg ml-4">Download Script</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="py-20 text-center">
         <div class="container mx-auto px-4 max-w-4xl">
             <h2 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight text-white">
@@ -76,101 +174,57 @@
             <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
                 AC-Zero is the definitive Windows utility engineered to restore your gaming environment to a fresh state, eliminating all residual files and configurations from invasive anti-cheat systems and associated launchers.
             </p>
-            <a href="#" class="btn-primary text-lg font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+            <a id="download-btn-hero" href="#" class="btn-primary text-lg font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
                 Download AC-Zero (Windows Only)
             </a>
         </div>
     </section>
 
-    <!-- Features Section (What It Cleans) -->
     <section id="features" class="py-20 bg-gray-900 border-t border-b border-gray-800">
         <div class="container mx-auto px-4">
             <h3 class="text-4xl font-bold text-center mb-12 text-white">Core Eradication Modules</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-                <!-- Feature Card 1: Anti-Cheat Reset -->
                 <div class="section-bg p-6">
-                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
-                        <path d="M12 2L3 6v5c0 6 9 10 9 10s9-4 9-10V6L12 2z"></path>
-                    </svg>
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24"><path d="M12 2L3 6v5c0 6 9 10 9 10s9-4 9-10V6L12 2z"></path></svg>
                     <h4 class="text-xl font-semibold mb-2 text-white">Anti-Cheat System Termination</h4>
-                    <p class="text-gray-400 text-sm">
-                        Targets and removes all lingering trace files, logs, and services from major anti-cheat platforms, including <span class="highlight">Easy Anti-Cheat (EAC)</span>, <span class="highlight">BattlEye</span>, and <span class="highlight">Riot Vanguard</span> components.
-                    </p>
+                    <p class="text-gray-400 text-sm">Targets and removes all lingering trace files, logs, and services from major anti-cheat platforms, including <span class="highlight">Easy Anti-Cheat (EAC)</span>, <span class="highlight">BattlEye</span>, and <span class="highlight">Riot Vanguard</span> components.</p>
                 </div>
 
-                <!-- Feature Card 2: Launcher Cleanup -->
                 <div class="section-bg p-6">
-                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
-                        <rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect>
-                        <line x1="6" y1="12" x2="6" y2="12"></line>
-                        <line x1="18" y1="12" x2="18" y2="12"></line>
-                        <rect x="10" y="10" width="4" height="4" rx="1" ry="1"></rect>
-                    </svg>
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect><line x1="6" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="18" y2="12"></line><rect x="10" y="10" width="4" height="4" rx="1" ry="1"></rect></svg>
                     <h4 class="text-xl font-semibold mb-2 text-white">Game Launcher Data Annihilation</h4>
-                    <p class="text-gray-400 text-sm">
-                        Thoroughly cleans residual configuration files, caches, and user data left by platforms such as <span class="highlight">Steam</span> and <span class="highlight">Epic Games</span>, ensuring a completely clean environment for application launches.
-                    </p>
+                    <p class="text-gray-400 text-sm">Thoroughly cleans residual configuration files, caches, and user data left by platforms such as <span class="highlight">Steam</span> and <span class="highlight">Epic Games</span>, ensuring a completely clean environment for application launches.</p>
                 </div>
 
-                <!-- Feature Card 3: Game-Specific Traces -->
                 <div class="section-bg p-6">
-                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
-                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                     <h4 class="text-xl font-semibold mb-2 text-white">Specific Game Trace Erasure</h4>
-                    <p class="text-gray-400 text-sm">
-                        Deep cleaning protocols targeting specific game directories and user profile data. This module focuses on eliminating traces related to titles like <span class="highlight">Rust</span> and <span class="highlight">Fortnite</span>.
-                    </p>
+                    <p class="text-gray-400 text-sm">Deep cleaning protocols targeting specific game directories and user profile data. This module focuses on eliminating traces related to titles like <span class="highlight">Rust</span> and <span class="highlight">Fortnite</span>.</p>
                 </div>
 
-                <!-- Feature Card 4: System Process Termination -->
                 <div class="section-bg p-6">
-                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="10" y1="15" x2="14" y2="9"></line>
-                        <line x1="14" y1="15" x2="10" y2="9"></line>
-                    </svg>
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="10" y1="15" x2="14" y2="9"></line><line x1="14" y1="15" x2="10" y2="9"></line></svg>
                     <h4 class="text-xl font-semibold mb-2 text-white">Active Process Termination</h4>
-                    <p class="text-gray-400 text-sm">
-                        Safely terminates all associated running processes before initiating cleaning (e.g., <span class="highlight">Steam</span>, <span class="highlight">RustClient</span>, <span class="highlight">Epic Games services</span>). This ensures that critical files are unlocked and fully removable.
-                    </p>
+                    <p class="text-gray-400 text-sm">Safely terminates all associated running processes before initiating cleaning (e.g., <span class="highlight">Steam</span>, <span class="highlight">RustClient</span>, <span class="highlight">Epic Games services</span>). This ensures that critical files are unlocked and fully removable.</p>
                 </div>
 
-                <!-- Feature Card 5: OS Level Cleanup -->
                 <div class="section-bg p-6">
-                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
-                        <rect x="2" y="3" width="20" height="15" rx="2" ry="2"></rect>
-                        <line x1="1" y1="18" x2="23" y2="18"></line>
-                        <line x1="7" y1="21" x2="17" y2="21"></line>
-                        <line x1="12" y1="18" x2="12" y2="21"></line>
-                    </svg>
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="15" rx="2" ry="2"></rect><line x1="1" y1="18" x2="23" y2="18"></line><line x1="7" y1="21" x2="17" y2="21"></line><line x1="12" y1="18" x2="12" y2="21"></line></svg>
                     <h4 class="text-xl font-semibold mb-2 text-white">Windows OS Optimization</h4>
-                    <p class="text-gray-400 text-sm">
-                        Executes essential operating system cleanup, including the complete clearance of the <span class="highlight">Recycle Bin</span>, removal of Windows <span class="highlight">prefetch files</span>, and reduction of residual OS clutter.
-                    </p>
+                    <p class="text-gray-400 text-sm">Executes essential operating system cleanup, including the complete clearance of the <span class="highlight">Recycle Bin</span>, removal of Windows <span class="highlight">prefetch files</span>, and reduction of residual OS clutter.</p>
                 </div>
 
-                <!-- Feature Card 6: Registry & System Config -->
                 <div class="section-bg p-6">
-                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="3"></circle>
-                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path>
-                    </svg>
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
                     <h4 class="text-xl font-semibold mb-2 text-white">Registry Trace Elimination</h4>
-                    <p class="text-gray-400 text-sm">
-                        Includes dedicated functionality to scan, locate, and remove specific, known registry entries and system traces associated with game components and anti-cheat systems to ensure maximum integrity.
-                    </p>
+                    <p class="text-gray-400 text-sm">Includes dedicated functionality to scan, locate, and remove specific, known registry entries and system traces associated with game components and anti-cheat systems to ensure maximum integrity.</p>
                 </div>
 
             </div>
         </div>
     </section>
 
-    <!-- How It Works Section -->
     <section id="about" class="py-20 text-center">
         <div class="container mx-auto px-4 max-w-4xl">
             <h3 class="text-4xl font-bold mb-10 text-white">Operational Protocol</h3>
@@ -198,20 +252,192 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="mt-16 p-8 text-center text-sm text-gray-500 border-t border-gray-800">
         <div class="container mx-auto px-4">
             <p>&copy; 2025 AC-Zero Utility. All rights reserved.</p>
             <div class="mt-4 space-x-4">
-                <a href="https://github.com/YourUsername/TraceEraser" target="_blank" class="hover:text-white transition">GitHub Repository</a>
+                <a href="https://github.com/jlaiii/AC-Zero" target="_blank" class="hover:text-white transition">GitHub Repository</a>
                 <span class="text-gray-700">|</span>
-                <a href="#about" class="hover:text-white transition">Full Disclaimer</a>
+                <a href="https://discord.gg/a5T2xBhKgt" target="_blank" class="hover:text-white transition">Discord Community</a>
+                <span class="text-gray-700">|</span>
+                <a id="footer-disclaimer-link" href="#" class="hover:text-white transition">Full Disclaimer</a>
             </div>
-            <p class="mt-4 text-xs">
-                Built as a single-file static site for ease of distribution.
-            </p>
         </div>
     </footer>
+
+    <div id="disclaimer-modal" class="modal">
+        <div class="modal-content">
+            <div class="flex items-center justify-center mb-6">
+                <svg xmlns="http://www.w3.org/2000/svg" class="disclaimer-icon mr-3" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.174 3.35 1.94 3.35h14.72c1.766 0 2.806-1.85 1.94-3.35L13.94 3.376c-.863-1.5-3.033-1.5-3.896 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+                <h4 class="text-3xl font-bold text-eab308 text-gradient">Important Disclaimer</h4>
+            </div>
+
+            <div class="disclaimer-section">
+                <p class="text-gray-300 text-base mb-2">
+                    <strong class="disclaimer-strong">AC-Zero</strong> is an independent system maintenance utility. This software is <strong class="disclaimer-strong">not affiliated</strong> with any game publisher, anti-cheat program (such as Easy Anti-Cheat, BattlEye, or Riot Vanguard), or game launcher.
+                </p>
+            </div>
+
+            <div class="disclaimer-section">
+                <p class="text-gray-300 text-base">
+                    This software was created for <strong class="disclaimer-strong">testing and educational purposes only</strong> to understand and reset system environments. Use this utility at your own discretion and risk. The creator is <strong class="disclaimer-strong">not responsible</strong> for any data loss or negative consequences resulting from its use.
+                </p>
+            </div>
+            
+            <div class="python-notice">
+                <p class="text-yellow-400 font-semibold mb-3 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-3" viewBox="0 0 24 24" fill="none" stroke="#FFDE57" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v2m0 16v2m-6-8h-2m16 0h-2m-8-6v-2m0 16v-2m-6-8h-2m16 0h-2m-8-6v-2m0 16v-2m-6-8h-2m16 0h-2M4 12h4m12 0h-4M12 4v4m0 12v-4M8 4V8m8 12v-4m-4-8v-4m-4 12v4"></path>
+                    </svg>
+                    CRITICAL REQUIREMENT: Python Installation
+                </p>
+                <p class="text-gray-400 text-base mb-4">
+                    This utility is a Python script (.py) and requires <strong class="text-yellow-300">Python 3.x</strong> to be installed on your Windows system to execute properly.
+                </p>
+                
+                <div class="flex flex-col gap-4">
+                    <a href="https://www.python.org/downloads/" target="_blank" class="btn-python px-6 py-3 text-base rounded-lg font-semibold text-center transition-all duration-300 hover:scale-105">
+                        Download Python (Official Site)
+                    </a>
+                    
+                    <div id="python-checkbox-container" class="python-checkbox-container">
+                        <label class="flex items-center text-gray-200 cursor-pointer text-base font-medium">
+                            <input type="checkbox" id="python-installed-check" class="custom-checkbox mr-4">
+                            <div class="flex flex-col">
+                                <span class="text-lg font-semibold">I already have Python installed</span>
+                                <span class="text-sm text-gray-400 mt-1">Check this box to enable the download button</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="accept-and-download" class="btn-primary btn-disabled px-6 py-3 rounded-lg font-semibold w-full mt-6 text-lg transition-all duration-300" disabled>
+                I Understand and Accept (Please check Python requirement above)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Use the RAW GitHub URL for fetching the file contents
+        const SCRIPT_URL = 'https://raw.githubusercontent.com/jlaiii/AC-Zero/main/ac-zero.py';
+        const FILE_NAME = 'ac-zero.py';
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('disclaimer-modal');
+            const acceptBtn = document.getElementById('accept-and-download');
+            const pythonCheck = document.getElementById('python-installed-check');
+            
+            // All buttons/links that should open the modal
+            const openModalElements = [
+                document.getElementById('download-btn-nav'),
+                document.getElementById('download-btn-hero'),
+                document.getElementById('disclaimer-link-nav'),
+                document.getElementById('footer-disclaimer-link')
+            ];
+
+            // Function to open the modal
+            function openModal(event) {
+                event.preventDefault(); // Stop the link from navigating
+                modal.classList.add('active');
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                modal.classList.remove('active');
+            }
+
+            // Function to validate the Python check and enable/disable the accept button
+            function toggleAcceptButton() {
+                const checkboxContainer = document.getElementById('python-checkbox-container');
+                
+                if (pythonCheck.checked) {
+                    acceptBtn.disabled = false;
+                    acceptBtn.classList.remove('btn-disabled');
+                    acceptBtn.innerHTML = 'I Understand and Accept - Download AC-Zero';
+                    checkboxContainer.classList.add('checked');
+                } else {
+                    acceptBtn.disabled = true;
+                    acceptBtn.classList.add('btn-disabled');
+                    acceptBtn.innerHTML = 'I Understand and Accept (Please check Python requirement above)';
+                    checkboxContainer.classList.remove('checked');
+                }
+            }
+            
+            // Function to accept and trigger the file download (using Blob/Fetch)
+            async function acceptAndDownload() {
+                if (!pythonCheck.checked) {
+                    alert("Please confirm you have Python installed by checking the box above, or download Python first from the official site.");
+                    return;
+                }
+                
+                closeModal();
+                
+                try {
+                    // 1. Fetch the raw file content
+                    const response = await fetch(SCRIPT_URL);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    // 2. Get the content as a Blob (binary data)
+                    const blob = await response.blob();
+                    
+                    // 3. Create a temporary object URL for the Blob
+                    const url = window.URL.createObjectURL(blob);
+                    
+                    // 4. Create and trigger a temporary anchor element
+                    const tempLink = document.createElement('a');
+                    tempLink.href = url;
+                    tempLink.download = FILE_NAME; // Set the desired filename
+                    
+                    document.body.appendChild(tempLink);
+                    tempLink.click();
+                    
+                    // 5. Clean up the DOM and the object URL
+                    document.body.removeChild(tempLink);
+                    window.URL.revokeObjectURL(url);
+                    
+                } catch (error) {
+                    console.error('Download failed:', error);
+                    alert(`Download failed: ${error.message}. Please check your internet connection or try again.`);
+                    // Fallback to open in new tab if programmatic download completely fails
+                    window.open(SCRIPT_URL, '_blank');
+                }
+            }
+
+            // --- Event Listeners Setup ---
+
+            // Initial button state check
+            toggleAcceptButton(); 
+
+            // Attach event listener to the Python checkbox
+            pythonCheck.addEventListener('change', toggleAcceptButton);
+
+            // Attach event listeners to elements that open the modal
+            openModalElements.forEach(element => {
+                if (element) {
+                    element.addEventListener('click', openModal);
+                }
+            });
+
+            // Attach event listener to the accept button (triggers download)
+            if (acceptBtn) {
+                acceptBtn.addEventListener('click', acceptAndDownload);
+            }
+
+            // Close modal when clicking outside of the content
+            if (modal) {
+                modal.addEventListener('click', (event) => {
+                    if (event.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+        });
+    </script>
 
 </body>
 </html>
