@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AC-Zero - The Ultimate System Reset Utility</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for a dark, sleek, and high-contrast look */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* GitHub Dark Background */
+            color: #c9d1d9; /* Light text */
+            scroll-behavior: smooth;
+        }
+        .section-bg {
+            background-color: #161b22; /* Slightly lighter dark background for sections */
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary {
+            background-color: #238636; /* Green CTA */
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #2ea043;
+            box-shadow: 0 0 10px rgba(46, 160, 67, 0.5);
+        }
+        .feature-icon {
+            color: #58a6ff; /* Blue highlight */
+        }
+        .text-gradient {
+            background-image: linear-gradient(to right, #4ade80, #58a6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        /* Highlight Class for cleaned items */
+        .highlight {
+            font-weight: 600;
+            color: #4ade80; /* A soft, visible green */
+        }
+        /* Style for SVG icons */
+        .svg-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="p-4 border-b border-gray-700">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gradient">AC-Zero</h1>
+            <nav>
+                <a href="#features" class="text-sm px-3 py-2 rounded-lg hover:bg-gray-700 transition duration-150">Features</a>
+                <a href="#about" class="text-sm px-3 py-2 rounded-lg hover:bg-gray-700 transition duration-150">Disclaimer</a>
+                <a href="#" class="btn-primary px-4 py-2 text-sm rounded-lg ml-4">Download Script</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-20 text-center">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h2 class="text-5xl md:text-7xl font-extrabold mb-4 leading-tight text-white">
+                Achieve <span class="text-gradient">Zero Anti-Cheat Footprint.</span>
+            </h2>
+            <p class="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+                AC-Zero is the definitive Windows utility engineered to restore your gaming environment to a fresh state, eliminating all residual files and configurations from invasive anti-cheat systems and associated launchers.
+            </p>
+            <a href="#" class="btn-primary text-lg font-semibold px-8 py-3 rounded-xl shadow-lg hover:shadow-xl transition duration-300">
+                Download AC-Zero (Windows Only)
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section (What It Cleans) -->
+    <section id="features" class="py-20 bg-gray-900 border-t border-b border-gray-800">
+        <div class="container mx-auto px-4">
+            <h3 class="text-4xl font-bold text-center mb-12 text-white">Core Eradication Modules</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Feature Card 1: Anti-Cheat Reset -->
+                <div class="section-bg p-6">
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
+                        <path d="M12 2L3 6v5c0 6 9 10 9 10s9-4 9-10V6L12 2z"></path>
+                    </svg>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Anti-Cheat System Termination</h4>
+                    <p class="text-gray-400 text-sm">
+                        Targets and removes all lingering trace files, logs, and services from major anti-cheat platforms, including <span class="highlight">Easy Anti-Cheat (EAC)</span>, <span class="highlight">BattlEye</span>, and <span class="highlight">Riot Vanguard</span> components.
+                    </p>
+                </div>
+
+                <!-- Feature Card 2: Launcher Cleanup -->
+                <div class="section-bg p-6">
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
+                        <rect x="2" y="6" width="20" height="12" rx="2" ry="2"></rect>
+                        <line x1="6" y1="12" x2="6" y2="12"></line>
+                        <line x1="18" y1="12" x2="18" y2="12"></line>
+                        <rect x="10" y="10" width="4" height="4" rx="1" ry="1"></rect>
+                    </svg>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Game Launcher Data Annihilation</h4>
+                    <p class="text-gray-400 text-sm">
+                        Thoroughly cleans residual configuration files, caches, and user data left by platforms such as <span class="highlight">Steam</span> and <span class="highlight">Epic Games</span>, ensuring a completely clean environment for application launches.
+                    </p>
+                </div>
+
+                <!-- Feature Card 3: Game-Specific Traces -->
+                <div class="section-bg p-6">
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                    </svg>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Specific Game Trace Erasure</h4>
+                    <p class="text-gray-400 text-sm">
+                        Deep cleaning protocols targeting specific game directories and user profile data. This module focuses on eliminating traces related to titles like <span class="highlight">Rust</span> and <span class="highlight">Fortnite</span>.
+                    </p>
+                </div>
+
+                <!-- Feature Card 4: System Process Termination -->
+                <div class="section-bg p-6">
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="10" y1="15" x2="14" y2="9"></line>
+                        <line x1="14" y1="15" x2="10" y2="9"></line>
+                    </svg>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Active Process Termination</h4>
+                    <p class="text-gray-400 text-sm">
+                        Safely terminates all associated running processes before initiating cleaning (e.g., <span class="highlight">Steam</span>, <span class="highlight">RustClient</span>, <span class="highlight">Epic Games services</span>). This ensures that critical files are unlocked and fully removable.
+                    </p>
+                </div>
+
+                <!-- Feature Card 5: OS Level Cleanup -->
+                <div class="section-bg p-6">
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
+                        <rect x="2" y="3" width="20" height="15" rx="2" ry="2"></rect>
+                        <line x1="1" y1="18" x2="23" y2="18"></line>
+                        <line x1="7" y1="21" x2="17" y2="21"></line>
+                        <line x1="12" y1="18" x2="12" y2="21"></line>
+                    </svg>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Windows OS Optimization</h4>
+                    <p class="text-gray-400 text-sm">
+                        Executes essential operating system cleanup, including the complete clearance of the <span class="highlight">Recycle Bin</span>, removal of Windows <span class="highlight">prefetch files</span>, and reduction of residual OS clutter.
+                    </p>
+                </div>
+
+                <!-- Feature Card 6: Registry & System Config -->
+                <div class="section-bg p-6">
+                    <svg class="svg-icon mb-3 feature-icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path>
+                    </svg>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Registry Trace Elimination</h4>
+                    <p class="text-gray-400 text-sm">
+                        Includes dedicated functionality to scan, locate, and remove specific, known registry entries and system traces associated with game components and anti-cheat systems to ensure maximum integrity.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="about" class="py-20 text-center">
+        <div class="container mx-auto px-4 max-w-4xl">
+            <h3 class="text-4xl font-bold mb-10 text-white">Operational Protocol</h3>
+            <div class="flex flex-col md:flex-row justify-center gap-6">
+
+                <div class="flex flex-col items-center p-6 section-bg md:w-1/3">
+                    <div class="text-4xl font-extrabold text-gradient mb-3">1</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Initiation & Validation</h4>
+                    <p class="text-gray-400 text-sm">The script verifies execution environment compatibility (Windows) and automatically requests elevated administrator privileges, which are mandatory for system-level file access.</p>
+                </div>
+
+                <div class="flex flex-col items-center p-6 section-bg md:w-1/3">
+                    <div class="text-4xl font-extrabold text-gradient mb-3">2</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Process Lockdown</h4>
+                    <p class="text-gray-400 text-sm">All target processes (Game launchers, Anti-cheats, Clients) are forcefully terminated to prevent file usage conflicts and enable complete data removal.</p>
+                </div>
+
+                <div class="flex flex-col items-center p-6 section-bg md:w-1/3">
+                    <div class="text-4xl font-extrabold text-gradient mb-3">3</div>
+                    <h4 class="text-xl font-semibold mb-2 text-white">Systematic Execution</h4>
+                    <p class="text-gray-400 text-sm">File paths (Appdata, ProgramData) and the Registry are systematically scanned, logged, and cleared for all persistent and temporary traces as defined by the protocol.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-16 p-8 text-center text-sm text-gray-500 border-t border-gray-800">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 AC-Zero Utility. All rights reserved.</p>
+            <div class="mt-4 space-x-4">
+                <a href="https://github.com/YourUsername/TraceEraser" target="_blank" class="hover:text-white transition">GitHub Repository</a>
+                <span class="text-gray-700">|</span>
+                <a href="#about" class="hover:text-white transition">Full Disclaimer</a>
+            </div>
+            <p class="mt-4 text-xs">
+                Built as a single-file static site for ease of distribution.
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
