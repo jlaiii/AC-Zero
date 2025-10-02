@@ -24,6 +24,27 @@ from pathlib import Path
 import psutil
 from datetime import datetime
 
+def boot_sequence():
+    """Display AC-Zero intro with program info and website"""
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
+    print("=" * 60)
+    print("                    AC-ZERO v1.0")
+    print("           Advanced Cleaning & Reset Tool")
+    print()
+    print("              https://jlaiii.github.io/AC-Zero/")
+    print("=" * 60)
+    print()
+    
+    for countdown in range(5, 0, -1):
+        print(f"\rStarting in {countdown} seconds...", end="", flush=True)
+        time.sleep(1)
+    
+    print(f"\rStarting now...           ", flush=True)
+    time.sleep(0.5)
+    
+    os.system('cls' if os.name == 'nt' else 'clear')
+
 class ACZero:
     def __init__(self):
         self.steam_processes = ['steam.exe', 'steamwebhelper.exe', 'steamservice.exe']
@@ -923,11 +944,31 @@ class ACZero:
         print("All trace files and registry entries removed")
         
         print("\n" + "=" * 70)
-        print("Press any key to exit...")
+        print("                    AC-ZERO v1.0")
+        print("              https://jlaiii.github.io/AC-Zero/")
+        print("=" * 70)
+        
+        # Auto-close after 10 seconds if no key pressed
+        import threading
+        import sys
+        
+        def auto_close():
+            for i in range(10, 0, -1):
+                print(f"\rPress any key to exit... (auto-closing in {i}s) ", end="", flush=True)
+                time.sleep(1)
+            print(f"\rAuto-closing...                                    ", flush=True)
+            os._exit(0)
+        
+        # Start auto-close timer
+        timer = threading.Thread(target=auto_close, daemon=True)
+        timer.start()
+        
         try:
             input()
+            os._exit(0)
         except:
-            time.sleep(5)
+            time.sleep(1)
+            os._exit(0)
 
 def request_admin():
     """Request administrator privileges if not already running as admin"""
@@ -983,8 +1024,8 @@ def main():
     # Automatically request admin privileges
     request_admin()
     
-    # Clear console and show startup banner
-    os.system('cls')
+    # Show boot sequence
+    boot_sequence()
     
     print("=" * 70)
     print("AC-ZERO - Anti-Cheat Zero Tolerance Cleaner")
@@ -994,40 +1035,6 @@ def main():
     # Initialize and run AC-Zero
     cleaner = ACZero()
     success = cleaner.run_cleanup()
-    
-    if success:
-        print("\nAC-Zero cleanup completed successfully!")
-    else:
-        print("\nAC-Zero encountered errors during cleanup.")
-    
-    print("Press any key to exit...")
-    try:
-        input()
-    except:
-        time.sleep(5) print("TRACEERASER")
-    print("Auto-requesting administrator privileges...")
-    print("Initializing comprehensive cleanup system...")
-    time.sleep(2)
-    
-    # Now we're running as admin
-    cleaner = TraceEraser()
-    
-    # Run the comprehensive cleanup
-    success = cleaner.run_cleanup()
-    
-    # Ask about startup integration only on first successful run
-    if success:
-        try:
-            print("\nWould you like to add this cleaner to Windows startup?")
-            print("   This will automatically clean on every boot.")
-            startup_choice = input("   Add to startup? (y/n): ").lower().strip()
-            if startup_choice in ['y', 'yes']:
-                if add_to_startup():
-                    print("Successfully added to Windows startup!")
-                else:
-                    print("Failed to add to startup.")
-        except:
-            pass  # Skip if running in non-interactive mode
 
 if __name__ == "__main__":
     main()
