@@ -92,7 +92,7 @@ class ACZero:
             # BattlEye Anti-Cheat
             'BEService.exe', 'BEService_x64.exe', 'BattlEye.exe',
             
-            # Easy Anti-Cheat (EAC)
+            # Easy Anti-Cheat (EAC) - kill processes but keep files installed
             'EasyAntiCheat.exe', 'EasyAntiCheat_Setup.exe', 'EACLauncher.exe',
             
             # Riot Vanguard
@@ -229,7 +229,7 @@ class ACZero:
                 
         # Third pass - kill by service name for system services
         service_names = [
-            'BEService', 'EasyAntiCheat', 'vgc', 'vgk', 'EAAntiCheat', 
+            'BEService', 'EasyAntiCheat', 'vgc', 'vgk', 'EAAntiCheat',  # Kill EAC service but keep files
             'PnkBstrA', 'PnkBstrB', 'ESEADriver2', 'xhunter1'
         ]
         
@@ -414,7 +414,7 @@ class ACZero:
             self.user_profile / "Documents" / "My Games" / "Rust",
             self.localappdata / "GameAnalytics",
             self.localappdata / "WELLBIA",
-            self.appdata / "EasyAntiCheat",
+            # self.appdata / "EasyAntiCheat",  # Commented out - needed for game launches
             self.localappdata / "BattlEye"
         ]
         
@@ -433,13 +433,13 @@ class ACZero:
                 self.log(f"Directory not found: {dir_path.name}", "INFO")
                 
     def clean_anticheat_systems(self):
-        """Remove anti-cheat system files and registry entries"""
-        self.log("Cleaning anti-cheat systems...", "INFO")
+        """Remove anti-cheat system files and registry entries (preserves EAC)"""
+        self.log("Cleaning anti-cheat systems (preserving EAC)...", "INFO")
         
-        # Anti-cheat directories to remove
+        # Anti-cheat directories to remove (EAC directories commented out to prevent game launch issues)
         anticheat_dirs = [
-            Path("C:/Program Files (x86)/EasyAntiCheat"),
-            Path("C:/Program Files (x86)/EasyAntiCheat_EOS"),
+            # Path("C:/Program Files (x86)/EasyAntiCheat"),  # Commented out - needed for game launches
+            # Path("C:/Program Files (x86)/EasyAntiCheat_EOS"),  # Commented out - needed for game launches
             Path("C:/Program Files/Riot Vanguard"),
             Path("C:/Program Files (x86)/Common Files/BattlEye"),
             Path("C:/Program Files/Common Files/PUBG"),
@@ -456,13 +456,13 @@ class ACZero:
             self.appdata / "Battle.net" / "Telemetry"
         ]
         
-        # Anti-cheat files to remove
+        # Anti-cheat files to remove (EAC files commented out to prevent game launch issues)
         anticheat_files = [
             Path("C:/Windows/xhunter1.sys"),
             Path("C:/Windows/xhunters.log"),
-            Path("C:/Windows/SysWOW64/EasyAntiCheat.exe"),
+            # Path("C:/Windows/SysWOW64/EasyAntiCheat.exe"),  # Commented out - needed for game launches
             Path("C:/Windows/System32/drivers/ACE-BASE.sys"),
-            Path("C:/Windows/system32/drivers/eaanticheat.sys"),
+            # Path("C:/Windows/system32/drivers/eaanticheat.sys"),  # Commented out - needed for game launches
             Path("C:/Windows/SysWOW64/PnkBstrB.exe"),
             Path("C:/Windows/SysWOW64/PnkBstrA.exe"),
             Path("C:/Windows/SysWOW64/pbsvc.exe")
@@ -504,6 +504,83 @@ class ACZero:
                     self.stats['files_deleted'] += 1
                     self.stats['total_size_freed'] += size
                     self.log(f"Removed EAC DLL: {dll_file.name}", "DELETED")
+                except Exception as e:
+                    self.log(f"Failed to remove {dll_file}: {e}", "ERROR")
+                    self.stats['errors'] += 1
+    
+    def clean_anticheat_systems_complete(self):
+        """COMPLETE anti-cheat removal - deletes ALL anti-cheat files including EAC"""
+        self.log("COMPLETE ANTI-CHEAT REMOVAL - NUCLEAR OPTION", "WARNING")
+        
+        # ALL anti-cheat directories to remove (including EAC)
+        anticheat_dirs = [
+            Path("C:/Program Files (x86)/EasyAntiCheat"),  # NOW INCLUDED
+            Path("C:/Program Files (x86)/EasyAntiCheat_EOS"),  # NOW INCLUDED
+            Path("C:/Program Files/Riot Vanguard"),
+            Path("C:/Program Files (x86)/Common Files/BattlEye"),
+            Path("C:/Program Files/Common Files/PUBG"),
+            Path("C:/Program Files/Common Files/Wellbia.com"),
+            Path("C:/Program Files/EA/AC"),
+            Path("C:/ProgramData/eaanticheat"),
+            self.localappdata / "BattlEye",
+            self.localappdata / "DayZ" / "BattlEye",
+            self.localappdata / "FLiNGTrainer",
+            self.localappdata / "Activision" / "bootstrapper",
+            self.localappdata / "Activision" / "Call of Duty",
+            self.appdata / "EA" / "AC",
+            self.appdata / "EAAntiCheat.Installer.Tool",
+            self.appdata / "Battle.net" / "Telemetry",
+            self.appdata / "EasyAntiCheat"  # NOW INCLUDED
+        ]
+        
+        # ALL anti-cheat files to remove (including EAC)
+        anticheat_files = [
+            Path("C:/Windows/xhunter1.sys"),
+            Path("C:/Windows/xhunters.log"),
+            Path("C:/Windows/SysWOW64/EasyAntiCheat.exe"),  # NOW INCLUDED
+            Path("C:/Windows/System32/drivers/ACE-BASE.sys"),
+            Path("C:/Windows/system32/drivers/eaanticheat.sys"),  # NOW INCLUDED
+            Path("C:/Windows/SysWOW64/PnkBstrB.exe"),
+            Path("C:/Windows/SysWOW64/PnkBstrA.exe"),
+            Path("C:/Windows/SysWOW64/pbsvc.exe")
+        ]
+        
+        # Clean anti-cheat directories
+        for dir_path in anticheat_dirs:
+            if dir_path.exists():
+                try:
+                    size = self.get_file_size(dir_path)
+                    shutil.rmtree(dir_path)
+                    self.stats['directories_deleted'] += 1
+                    self.stats['total_size_freed'] += size
+                    self.log(f"REMOVED anti-cheat: {dir_path.name} ({size/1024/1024:.1f} MB)", "DELETED")
+                except Exception as e:
+                    self.log(f"Failed to remove {dir_path}: {e}", "ERROR")
+                    self.stats['errors'] += 1
+                    
+        # Clean anti-cheat files
+        for file_path in anticheat_files:
+            if file_path.exists():
+                try:
+                    size = self.get_file_size(file_path)
+                    file_path.unlink()
+                    self.stats['files_deleted'] += 1
+                    self.stats['total_size_freed'] += size
+                    self.log(f"REMOVED anti-cheat file: {file_path.name} ({size/1024:.1f} KB)", "DELETED")
+                except Exception as e:
+                    self.log(f"Failed to remove {file_path}: {e}", "ERROR")
+                    self.stats['errors'] += 1
+                    
+        # Clean ALL EAC usermode DLLs
+        system32_path = Path("C:/Windows/System32")
+        if system32_path.exists():
+            for dll_file in system32_path.glob("eac_usermode_*.dll"):
+                try:
+                    size = self.get_file_size(dll_file)
+                    dll_file.unlink()
+                    self.stats['files_deleted'] += 1
+                    self.stats['total_size_freed'] += size
+                    self.log(f"REMOVED EAC DLL: {dll_file.name}", "DELETED")
                 except Exception as e:
                     self.log(f"Failed to remove {dll_file}: {e}", "ERROR")
                     self.stats['errors'] += 1
@@ -896,19 +973,12 @@ class ACZero:
             # If we can't open the key, try to delete it directly
             winreg.DeleteKey(hkey, path)
                 
-    def run_cleanup(self):
-        """Run complete comprehensive cleanup process"""
-        print("=" * 70)
-        print("AC-ZERO - STARTING DEEP CLEAN")
-        print("=" * 70)
-        
+    def run_clean_files_only(self):
+        """Clean files and kill processes but preserve anti-cheat installations"""
         try:
-            # Step 1: Kill processes and disable protection
-            self.log("STEP 1: Terminating processes and disabling protection", "INFO")
-            self.disable_windows_defender()
+            # Step 1: Kill processes (including anti-cheat)
+            self.log("STEP 1: Terminating all processes", "INFO")
             self.kill_processes()
-            # Only kill debugging tools if specifically requested
-            # self.kill_debugging_tools(kill_debugging=True)  # Uncomment to enable
             
             # Step 2: Deep clean Steam data
             self.log("STEP 2: Deep cleaning Steam data", "INFO") 
@@ -918,9 +988,57 @@ class ACZero:
             self.log("STEP 3: Cleaning Rust game data", "INFO")
             self.clean_rust_data()
             
-            # Step 4: Clean anti-cheat systems
-            self.log("STEP 4: Removing anti-cheat systems", "INFO")
-            self.clean_anticheat_systems()
+            # Step 4: Clean Epic Games data
+            self.log("STEP 4: Cleaning Epic Games and Fortnite data", "INFO")
+            self.clean_epic_games_data()
+            
+            # Step 5: Clean temp files
+            self.log("STEP 5: Cleaning temporary files", "INFO")
+            self.clean_temp_files()
+            
+            # Step 6: Clean Windows prefetch
+            self.log("STEP 6: Cleaning Windows prefetch files", "INFO")
+            self.clean_windows_prefetch()
+            
+            # Step 7: Clean recycle bins
+            self.log("STEP 7: Cleaning recycle bins", "INFO")
+            self.clean_recycle_bins()
+            
+            # Step 8: Clean registry traces (game data only)
+            self.log("STEP 8: Cleaning game registry entries", "INFO")
+            self.clean_registry_traces()
+            
+            # Calculate final statistics
+            self.stats['end_time'] = datetime.now()
+            self.stats['duration'] = self.stats['end_time'] - self.stats['start_time']
+            
+            self.display_completion_stats()
+            return True
+            
+        except Exception as e:
+            self.log(f"Critical error during cleanup: {e}", "ERROR")
+            self.stats['errors'] += 1
+            return False
+    
+    def run_complete_removal(self):
+        """Complete anti-cheat removal - nuclear option"""
+        try:
+            # Step 1: Kill processes and disable protection
+            self.log("STEP 1: Terminating processes and disabling protection", "INFO")
+            self.disable_windows_defender()
+            self.kill_processes()
+            
+            # Step 2: Deep clean Steam data
+            self.log("STEP 2: Deep cleaning Steam data", "INFO") 
+            self.clean_steam_data()
+            
+            # Step 3: Clean Rust data
+            self.log("STEP 3: Cleaning Rust game data", "INFO")
+            self.clean_rust_data()
+            
+            # Step 4: COMPLETE anti-cheat removal
+            self.log("STEP 4: COMPLETE ANTI-CHEAT REMOVAL", "INFO")
+            self.clean_anticheat_systems_complete()
             
             # Step 5: Clean temp files
             self.log("STEP 5: Cleaning temporary files", "INFO")
@@ -947,6 +1065,12 @@ class ACZero:
             self.stats['duration'] = self.stats['end_time'] - self.stats['start_time']
             
             self.display_completion_stats()
+            return True
+            
+        except Exception as e:
+            self.log(f"Critical error during cleanup: {e}", "ERROR")
+            self.stats['errors'] += 1
+            return False
             
         except Exception as e:
             self.log(f"Critical error during cleanup: {e}", "ERROR")
@@ -1053,6 +1177,42 @@ python "{script_path.name}"
         print(f"Failed to add to startup: {e}")
         return False
 
+def show_main_menu():
+    """Display main menu and get user choice"""
+    print("=" * 70)
+    print("                    AC-ZERO v1.0")
+    print("           Advanced Cleaning & Reset Tool")
+    print("=" * 70)
+    print()
+    print("Choose your cleaning mode:")
+    print()
+    print("1. CLEAN FILES ONLY")
+    print("   - Kill anti-cheat processes")
+    print("   - Clean game data and configurations")
+    print("   - Preserve anti-cheat installations")
+    print("   - Games will show 'not installed' errors")
+    print()
+    print("2. REMOVE ALL ANTI-CHEAT")
+    print("   - Complete anti-cheat removal")
+    print("   - Delete all anti-cheat files and drivers")
+    print("   - Full system cleanup")
+    print("   - Nuclear option")
+    print()
+    print("3. EXIT")
+    print()
+    print("=" * 70)
+    
+    while True:
+        try:
+            choice = input("Enter your choice (1-3): ").strip()
+            if choice in ['1', '2', '3']:
+                return int(choice)
+            else:
+                print("Invalid choice. Please enter 1, 2, or 3.")
+        except KeyboardInterrupt:
+            print("\nExiting...")
+            sys.exit(0)
+
 def main():
     """Main function"""
     if os.name != 'nt':
@@ -1066,14 +1226,34 @@ def main():
     # Show boot sequence
     boot_sequence()
     
-    print("=" * 70)
-    print("AC-ZERO - Anti-Cheat Zero Tolerance Cleaner")
-    print("Comprehensive Windows debugging and game reset tool")
-    print("=" * 70)
+    # Show menu and get choice
+    choice = show_main_menu()
     
-    # Initialize and run AC-Zero
+    if choice == 3:
+        print("Exiting AC-Zero...")
+        sys.exit(0)
+    
+    # Initialize cleaner
     cleaner = ACZero()
-    success = cleaner.run_cleanup()
+    
+    if choice == 1:
+        print("\n" + "=" * 70)
+        print("STARTING CLEAN FILES ONLY MODE")
+        print("Anti-cheat processes will be killed but files preserved")
+        print("=" * 70)
+        success = cleaner.run_clean_files_only()
+    elif choice == 2:
+        print("\n" + "=" * 70)
+        print("STARTING COMPLETE ANTI-CHEAT REMOVAL")
+        print("WARNING: This will completely remove all anti-cheat systems!")
+        print("=" * 70)
+        
+        confirm = input("Are you sure? Type 'YES' to continue: ").strip()
+        if confirm.upper() == 'YES':
+            success = cleaner.run_complete_removal()
+        else:
+            print("Operation cancelled.")
+            sys.exit(0)
 
 if __name__ == "__main__":
     main()
